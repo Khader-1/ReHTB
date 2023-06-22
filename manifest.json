@@ -1,0 +1,20 @@
+{
+
+  "manifest_version": 2,
+  "name": "ReHTB",
+  "version": "1.0",
+
+  "description": "Hides old answers in HTB Academy.",
+
+  "icons": {
+    "60": "icons/favicon.png"
+  },
+
+  "content_scripts": [
+    {
+      "matches": ["*://*.hackthebox.com/*"],
+      "js": ["ReHTB.js"]
+    }
+  ]
+
+}

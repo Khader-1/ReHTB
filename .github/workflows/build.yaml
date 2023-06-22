@@ -1,0 +1,30 @@
+name: 🔨 build prod
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-20.04
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup Node
+        uses: actions/setup-node@v2
+     
+
+      - run: npm install --global web-ext && web-ext build
+
+      - name: Notify Telegram
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.MESSAGEID }}
+          token: ${{ secrets.BOTTOKEN }}
+          format: markdown
+          message: |
+            🔨 build prod ReHTB📦🧑🏽‍💻: ${{ github.event.head_commit.message }}
+          document: ${{ github.workspace }}/web-ext-artifacts/rehtb-1.0.zip
